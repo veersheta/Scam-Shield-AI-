@@ -1,0 +1,95 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ScamShield AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              // Light Mode Palette
+              'light-bg': '#F6F8FA',
+              'light-bg-secondary': '#FFFFFF',
+              'light-text-primary': '#1A202C',
+              'light-text-secondary': '#4A5568',
+              'light-accent': '#7C3AED', // Violet 500
+              'light-accent-hover': '#6D28D9', // Violet 600
+              'light-border': '#D0D7DE',
+              'light-glass': 'rgba(255, 255, 255, 0.4)',
+
+              // Dark Mode Palette
+              'dark-bg': '#0D1117',
+              'dark-bg-secondary': '#161B22',
+              'dark-text-primary': '#E6EDF3',
+              'dark-text-secondary': '#8B949E',
+              'dark-accent': '#8B5CF6', // Violet 400
+              'dark-accent-hover': '#A78BFA', // Violet 300
+              'dark-border': '#30363D',
+              'dark-glass': 'rgba(22, 27, 34, 0.3)',
+
+              // Status Colors (Universal)
+              'status-red': '#F85149',
+              'status-yellow': '#FDB827',
+              'status-green': '#28A745',
+              'status-blue': '#0969DA',
+
+              // New Purple for Deep Analysis Button
+              'purple': {
+                '600': '#9333EA',
+                '700': '#7E22CE',
+              },
+              // New Pink for Gradients
+              'pink': {
+                '500': '#EC4899',
+                '600': '#DB2777',
+              },
+            },
+            borderRadius: {
+              'xl': '1rem',
+              '2xl': '1.5rem',
+            },
+            boxShadow: {
+              'soft-light': '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05)',
+              'soft-dark': '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+            },
+            backdropBlur: {
+              'xl': '24px',
+            },
+          },
+        },
+      }
+    </script>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.25.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/"
+  }
+}
+</script>
+</head>
+  <body>
+    <script>
+      // Prevents Flash of Unstyled Content (FOUC) for dark/light mode
+      (function() {
+        const theme = localStorage.getItem('theme');
+        if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      })();
+    </script>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>

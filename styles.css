@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.blob-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  z-index: -10;
+}
+
+.blob {
+  position: absolute;
+  border-radius: 9999px; /* large value for circle */
+  mix-blend-mode: multiply;
+  filter: blur(70px);
+  opacity: 0.6;
+}
+
+.blob1 {
+  width: 400px;
+  height: 400px;
+  top: -150px;
+  left: -150px;
+  background-color: #EC4899; /* pink-500 */
+  animation: move1 25s infinite alternate;
+}
+
+.blob2 {
+  width: 350px;
+  height: 350px;
+  bottom: -150px;
+  right: -150px;
+  background-color: #A78BFA; /* violet-300 */
+  animation: move2 30s infinite alternate-reverse;
+}
+
+.blob3 {
+  width: 300px;
+  height: 300px;
+  top: 50%;
+  left: 50%;
+  margin-top: -150px;
+  margin-left: -150px;
+  background-color: #3B82F6; /* blue-500 */
+  animation: move3 20s infinite alternate;
+}
+
+@keyframes move1 {
+  from {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+  }
+  to {
+    transform: translate(200px, 100px) rotate(180deg) scale(1.2);
+  }
+}
+
+@keyframes move2 {
+    from {
+      transform: translate(0, 0) rotate(0deg) scale(1);
+    }
+    to {
+      transform: translate(-150px, -200px) rotate(-270deg) scale(1.1);
+    }
+}
+
+@keyframes move3 {
+    from {
+      transform: translate(-50%, -50%) rotate(0deg) scale(1);
+    }
+    to {
+      transform: translate(-30%, -70%) rotate(360deg) scale(0.9);
+    }
+}

@@ -1,0 +1,7 @@
+{
+  "name": "ScamShield AI",
+  "description": "An AI agent to detect, educate about, and help recover from sophisticated scams in messaging apps. It uses real-time analysis with search grounding and a deep thinking mode for complex threats.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
