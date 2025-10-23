@@ -37,22 +37,22 @@ const UserMenu: React.FC<UserMenuProps> = ({ user, setView }) => {
     <div className="relative" ref={menuRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center space-x-2 bg-light-bg-secondary dark:bg-dark-bg-secondary px-3 py-2 rounded-lg hover:bg-light-border/50 dark:hover:bg-dark-border/50"
+        className="flex items-center space-x-2 bg-neutral-dark px-3 py-2 rounded-lg hover:bg-neutral-light"
       >
-        <span className="text-sm font-medium text-light-text-primary dark:text-dark-text-primary">{user.email}</span>
-        <ChevronDownIcon className={`w-4 h-4 text-light-text-secondary dark:text-dark-text-secondary transform transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+        <span className="text-sm font-medium text-text-primary">{user.email}</span>
+        <ChevronDownIcon className={`w-4 h-4 text-text-secondary transform transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-48 bg-light-bg-secondary dark:bg-dark-bg-secondary border border-light-border dark:border-dark-border rounded-lg shadow-lg z-20 py-1">
+        <div className="absolute right-0 mt-2 w-48 bg-neutral-dark border border-neutral-light rounded-lg shadow-lg z-20 py-1">
           {user.role === 'admin' && (
-            <button onClick={handleDashboardClick} className="block w-full text-left px-4 py-2 text-sm text-light-text-primary dark:text-dark-text-primary hover:bg-light-border/50 dark:hover:bg-dark-border/50">
+            <button onClick={handleDashboardClick} className="block w-full text-left px-4 py-2 text-sm text-text-primary hover:bg-neutral-light">
               Admin Dashboard
             </button>
           )}
           <button
             onClick={handleLogout}
-            className="block w-full text-left px-4 py-2 text-sm text-light-text-primary dark:text-dark-text-primary hover:bg-light-border/50 dark:hover:bg-dark-border/50"
+            className="block w-full text-left px-4 py-2 text-sm text-text-primary hover:bg-neutral-light"
           >
             Logout
           </button>

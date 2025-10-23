@@ -26,7 +26,7 @@ const TABS: ToolTab[] = [
   { 
     id: 'recovery', 
     label: 'Recovery Toolkit', 
-    icon: <LifebuoyIcon className="h-6 w-6 mb-1 sm:mb-0" />,
+    icon: <LifebuoyIcon className="h-5 w-5 mb-1 sm:mb-0" />,
     isProtected: true,
     prompt: {
       title: 'Unlock the Recovery Toolkit',
@@ -36,21 +36,21 @@ const TABS: ToolTab[] = [
   { 
     id: 'literacy', 
     label: 'Literacy Hub', 
-    icon: <BookOpenIcon className="h-6 w-6 mb-1 sm:mb-0" />,
+    icon: <BookOpenIcon className="h-5 w-5 mb-1 sm:mb-0" />,
     isProtected: false,
     prompt: { title: '', message: '' }
   },
   { 
     id: 'community', 
     label: 'Community Hub', 
-    icon: <UsersIcon className="h-6 w-6 mb-1 sm:mb-0" />,
+    icon: <UsersIcon className="h-5 w-5 mb-1 sm:mb-0" />,
     isProtected: false,
     prompt: { title: '', message: '' }
   },
   { 
     id: 'sandbox', 
     label: 'Link Sandbox', 
-    icon: <MagnifyingGlassIcon className="h-6 w-6 mb-1 sm:mb-0" />,
+    icon: <MagnifyingGlassIcon className="h-5 w-5 mb-1 sm:mb-0" />,
     isProtected: true,
     prompt: {
         title: 'Unlock the Link Sandbox',
@@ -60,7 +60,7 @@ const TABS: ToolTab[] = [
   { 
     id: 'vault', 
     label: 'Password Vault', 
-    icon: <LockClosedIcon className="h-6 w-6 mb-1 sm:mb-0" />,
+    icon: <LockClosedIcon className="h-5 w-5 mb-1 sm:mb-0" />,
     isProtected: true,
     prompt: {
         title: 'Unlock Your Password Vault',
@@ -106,10 +106,10 @@ const ToolSuite: React.FC<ToolSuiteProps> = ({ onLoginClick, onSignUpClick }) =>
   const TabButton: React.FC<{ tab: ToolTab }> = ({ tab }) => (
     <button
       onClick={() => setActiveTab(tab.id)}
-      className={`flex-1 flex flex-col sm:flex-row items-center justify-center space-x-0 sm:space-x-3 p-4 font-semibold rounded-lg transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-light-bg-secondary dark:focus-visible:ring-offset-dark-bg-secondary focus-visible:ring-light-accent dark:focus-visible:ring-dark-accent ${
+      className={`flex-1 flex flex-col sm:flex-row items-center justify-center space-x-0 sm:space-x-3 p-4 font-semibold rounded-lg transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-black focus-visible:ring-electric-purple ${
         activeTab === tab.id
-          ? 'bg-light-bg-secondary dark:bg-dark-bg-secondary text-light-accent dark:text-dark-accent shadow-sm'
-          : 'text-light-text-secondary dark:text-dark-text-secondary hover:bg-light-bg-secondary/50 dark:hover:bg-dark-bg-secondary/50'
+          ? 'bg-neutral-dark text-text-primary shadow-sm'
+          : 'text-text-secondary hover:bg-neutral-dark/50 hover:text-text-primary'
       }`}
     >
       {tab.icon}
@@ -118,8 +118,8 @@ const ToolSuite: React.FC<ToolSuiteProps> = ({ onLoginClick, onSignUpClick }) =>
   );
 
   return (
-    <section className="bg-light-glass dark:bg-dark-glass backdrop-blur-xl p-2 sm:p-4 rounded-2xl border border-white/20">
-      <div className="flex flex-wrap sm:flex-nowrap gap-2 bg-light-bg dark:bg-dark-bg p-2 rounded-xl">
+    <section className="bg-neutral-dark/50 p-2 sm:p-4 rounded-2xl border border-neutral-light shadow-card">
+      <div className="flex flex-wrap sm:flex-nowrap gap-2 bg-charcoal-black p-2 rounded-xl">
         {TABS.map(tab => <TabButton key={tab.id} tab={tab} />)}
       </div>
       <div className="mt-4">

@@ -86,19 +86,19 @@ const CommunityHub: React.FC = () => {
   };
 
   return (
-    <div className="bg-light-glass dark:bg-dark-glass backdrop-blur-xl p-6 md:p-8 rounded-2xl border border-white/20">
+    <div className="bg-neutral-dark p-6 md:p-8 rounded-2xl border border-neutral-light">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
         <div>
-            <h3 className="text-2xl font-bold text-light-text-primary dark:text-dark-text-primary mb-2">Community Knowledge Base</h3>
-            <p className="text-light-text-secondary dark:text-dark-text-secondary">Learn from real-world examples of scams reported by the community. Upvote to help others see the most prevalent threats.</p>
+            <h3 className="text-2xl font-bold text-text-primary mb-2">Community Knowledge Base</h3>
+            <p className="text-text-secondary">Learn from real-world examples of scams reported by the community. Upvote to help others see the most prevalent threats.</p>
         </div>
-        <button onClick={handleReportScamClick} className="mt-4 md:mt-0 flex-shrink-0 bg-gradient-to-r from-purple-600 to-pink-500 hover:opacity-90 transition-opacity text-white font-bold py-2 px-4 rounded-lg">
+        <button onClick={handleReportScamClick} className="mt-4 md:mt-0 flex-shrink-0 bg-gradient-to-r from-brand-gradient-from to-brand-gradient-to bg-[size:200%_auto] animate-gradient-x hover:shadow-glow-purple transition-all duration-300 text-white font-bold py-2 px-4 rounded-lg">
           Report a Scam
         </button>
       </div>
       
       {shareFeedback && (
-        <div className="mb-4 p-3 bg-green-500/10 border border-green-500/30 text-green-700 dark:text-green-300 rounded-lg text-sm text-center transition-opacity duration-300" role="alert">
+        <div className="mb-4 p-3 bg-soft-mint/10 border border-soft-mint/30 text-soft-mint rounded-lg text-sm text-center transition-opacity duration-300" role="alert">
           {shareFeedback}
         </div>
       )}
