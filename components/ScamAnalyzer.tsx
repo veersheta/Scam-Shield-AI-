@@ -1,5 +1,6 @@
 
 import React, { useState, useCallback, useRef } from 'react';
+// FIX: Removed LiveSession from import as it is not an exported member.
 import { GoogleGenAI, LiveServerMessage, Modality, Blob } from "@google/genai";
 import { quickScan, deepAnalysis, analyzeEmail } from '../services/geminiService';
 import { AnalysisResult, ReportingGuide } from '../types';
@@ -47,6 +48,7 @@ const ScamAnalyzer: React.FC = () => {
   const [harmfulLink, setHarmfulLink] = useState('');
   const [reportingGuide, setReportingGuide] = useState<ReportingGuide | null>(null);
   const [unrecognizedLink, setUnrecognizedLink] = useState(false);
+  // FIX: Replaced non-existent LiveSession type with `any` for the session promise.
   const sessionRef = useRef<Promise<any> | null>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
   const scriptProcessorRef = useRef<ScriptProcessorNode | null>(null);
@@ -102,7 +104,7 @@ const ScamAnalyzer: React.FC = () => {
         const err = e as Error;
         setError(err.message || 'An unknown error occurred.');
     } finally {
-        setIsLoading(false);
+      setIsLoading(false);
     }
   }, [sender, subject, emailBody]);
 
@@ -116,6 +118,7 @@ const ScamAnalyzer: React.FC = () => {
   }, []);
 
   const handleStartListening = useCallback(async () => {
+    // Proactively check for permission status
     if (navigator.permissions) {
       try {
         const permissionStatus = await navigator.permissions.query({ name: 'microphone' as PermissionName });
@@ -217,6 +220,7 @@ const ScamAnalyzer: React.FC = () => {
     }
 
     try {
+      // Prepend https:// if no protocol is present for URL constructor to work
       let fullUrl = harmfulLink;
       if (!/^https?:\/\//i.test(harmfulLink)) {
         fullUrl = `https://${harmfulLink}`;
@@ -243,15 +247,14 @@ const ScamAnalyzer: React.FC = () => {
   const TabButton = ({ id, label, icon }: { id: Tab, label: string, icon: React.ReactNode }) => (
     <button
       onClick={() => handleTabChange(id)}
-      className={`relative flex-1 flex flex-col sm:flex-row items-center justify-center space-x-0 sm:space-x-2 p-3 text-sm font-semibold rounded-t-lg transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-dark focus-visible:ring-electric-purple ${
+      className={`flex-1 flex flex-col sm:flex-row items-center justify-center space-x-0 sm:space-x-2 p-3 text-sm font-semibold rounded-t-lg transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-light-bg dark:focus-visible:ring-offset-dark-bg focus-visible:ring-light-accent dark:focus-visible:ring-dark-accent ${
         activeTab === id
-          ? 'bg-neutral-dark text-text-primary'
-          : 'text-text-secondary hover:bg-neutral-light/50 hover:text-text-primary'
+          ? 'bg-light-bg-secondary dark:bg-dark-bg-secondary text-light-accent dark:text-dark-accent'
+          : 'text-light-text-secondary dark:text-dark-text-secondary hover:bg-light-bg-secondary/50 dark:hover:bg-dark-bg-secondary/50'
       }`}
     >
       {icon}
       <span>{label}</span>
-      {activeTab === id && <div className="absolute bottom-0 h-0.5 w-full bg-electric-purple rounded-full"></div>}
     </button>
   );
 
@@ -263,38 +266,38 @@ const ScamAnalyzer: React.FC = () => {
   );
 
   return (
-    <section className="max-w-4xl mx-auto bg-neutral-dark/50 backdrop-blur-xl p-1 sm:p-2 rounded-2xl border border-neutral-light shadow-card">
-      <div className="flex flex-col sm:flex-row rounded-t-xl overflow-hidden bg-neutral-dark/30">
+    <section className="max-w-4xl mx-auto bg-light-glass dark:bg-dark-glass backdrop-blur-xl p-1 sm:p-2 rounded-2xl border border-white/20 shadow-soft-light dark:shadow-soft-dark">
+      <div className="flex flex-col sm:flex-row rounded-t-xl overflow-hidden">
         <TabButton id="message" label="Message Analysis" icon={<ShieldCheckIcon className="h-5 w-5 mb-1 sm:mb-0" />} />
-        <TabButton id="email" label="Email Guardian" icon={<MailIcon className="h-5 w-5 mb-1 sm:mb-0" />} />
-        <TabButton id="call" label="Live Call Shield" icon={<MicrophoneIcon className="h-5 w-5 mb-1 sm:mb-0" />} />
-        <TabButton id="harmful" label="Takedown Support" icon={<ShieldExclamationIcon className="h-5 w-5 mb-1 sm:mb-0" />} />
+        <TabButton id="email" label="Email Forensics" icon={<MailIcon className="h-5 w-5 mb-1 sm:mb-0" />} />
+        <TabButton id="call" label="Voice Shield" icon={<MicrophoneIcon className="h-5 w-5 mb-1 sm:mb-0" />} />
+        <TabButton id="harmful" label="Takedown Assist" icon={<ShieldExclamationIcon className="h-5 w-5 mb-1 sm:mb-0" />} />
       </div>
 
-      <div className="bg-neutral-dark p-6 sm:p-8 rounded-b-xl">
+      <div className="bg-light-bg-secondary dark:bg-dark-bg-secondary p-6 sm:p-8 rounded-b-xl">
         {activeTab === 'message' && (
           <div>
-            <div className="flex justify-center items-center bg-charcoal-black rounded-full p-1 max-w-sm mx-auto mb-6 ring-1 ring-neutral-light">
-              <button onClick={() => setAnalysisMode('quick')} className={`w-1/2 py-2 px-4 rounded-full text-sm font-semibold transition-colors duration-300 ${analysisMode === 'quick' ? 'bg-electric-purple text-white' : 'text-text-secondary hover:bg-neutral-light'}`}>Quick Scan</button>
-              <button onClick={() => setAnalysisMode('deep')} className={`w-1/2 py-2 px-4 rounded-full text-sm font-semibold transition-colors duration-300 ${analysisMode === 'deep' ? 'bg-deep-violet text-white' : 'text-text-secondary hover:bg-neutral-light'}`}>Deep Analysis</button>
+            <div className="flex justify-center items-center bg-light-bg dark:bg-dark-bg rounded-full p-1 max-w-sm mx-auto mb-6 ring-1 ring-light-border dark:ring-dark-border">
+              <button onClick={() => setAnalysisMode('quick')} className={`w-1/2 py-2 px-4 rounded-full text-sm font-semibold transition-colors duration-300 ${analysisMode === 'quick' ? 'bg-light-accent dark:bg-dark-accent text-white' : 'text-light-text-secondary dark:text-dark-text-secondary hover:bg-light-border dark:hover:bg-dark-border'}`}>Quick Scan</button>
+              <button onClick={() => setAnalysisMode('deep')} className={`w-1/2 py-2 px-4 rounded-full text-sm font-semibold transition-colors duration-300 ${analysisMode === 'deep' ? 'bg-purple-600 hover:bg-purple-700 text-white' : 'text-light-text-secondary dark:text-dark-text-secondary hover:bg-light-border dark:hover:bg-dark-border'}`}>Deep Analysis</button>
             </div>
-            <p className="mb-4 text-center text-text-secondary text-sm">
-                {analysisMode === 'quick' ? 'Fast, real-time analysis for common threats.' : 'Advanced reasoning for complex, nuanced, and sophisticated threats.'}
+            <p className="mb-4 text-center text-light-text-secondary dark:text-dark-text-secondary text-sm">
+                {analysisMode === 'quick' ? 'Fast analysis for common threats.' : 'In-depth analysis for complex threats using advanced reasoning.'}
             </p>
-            <textarea value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Paste suspicious text here..." className="w-full h-40 p-4 bg-charcoal-black border border-neutral-light rounded-lg focus:ring-2 focus:ring-electric-purple focus:border-electric-purple focus:outline-none transition-all duration-200" disabled={isLoading} />
-            <button onClick={handleMessageAnalyze} disabled={isLoading || !message.trim()} className="mt-4 w-full bg-gradient-to-r from-brand-gradient-from to-brand-gradient-to bg-[size:200%_auto] animate-gradient-x hover:shadow-glow-purple transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-3 px-4 rounded-lg flex items-center justify-center">
-              {isLoading ? <><LoadingSpinner /> Analyzing...</> : 'Initiate Analysis'}
+            <textarea value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Paste suspicious content for forensic analysis..." className="w-full h-40 p-4 bg-light-bg dark:bg-dark-bg border border-light-border dark:border-dark-border rounded-lg focus:ring-2 focus:ring-light-accent dark:focus:ring-dark-accent focus:outline-none transition-colors" disabled={isLoading} />
+            <button onClick={handleMessageAnalyze} disabled={isLoading || !message.trim()} className="mt-4 w-full bg-gradient-to-r from-purple-600 to-pink-500 hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-3 px-4 rounded-lg flex items-center justify-center">
+              {isLoading ? <><LoadingSpinner /> Analyzing...</> : 'Analyze Message'}
             </button>
           </div>
         )}
 
         {activeTab === 'email' && (
             <div className="space-y-4">
-                 <p className="text-center text-text-secondary text-sm">Analyze an email for phishing and scam indicators.</p>
-                <input type="email" value={sender} onChange={e => setSender(e.target.value)} placeholder="Sender's Email Address" className="w-full p-3 bg-charcoal-black border border-neutral-light rounded-lg focus:ring-2 focus:ring-electric-purple focus:border-electric-purple focus:outline-none" disabled={isLoading} />
-                <input type="text" value={subject} onChange={e => setSubject(e.target.value)} placeholder="Subject Line" className="w-full p-3 bg-charcoal-black border border-neutral-light rounded-lg focus:ring-2 focus:ring-electric-purple focus:border-electric-purple focus:outline-none" disabled={isLoading} />
-                <textarea value={emailBody} onChange={(e) => setEmailBody(e.target.value)} placeholder="Paste the full email body here..." className="w-full h-40 p-4 bg-charcoal-black border border-neutral-light rounded-lg focus:ring-2 focus:ring-electric-purple focus:border-electric-purple focus:outline-none" disabled={isLoading} />
-                <button onClick={handleEmailAnalyze} disabled={isLoading || !sender.trim() || !subject.trim() || !emailBody.trim()} className="w-full bg-gradient-to-r from-brand-gradient-from to-brand-gradient-to bg-[size:200%_auto] animate-gradient-x hover:shadow-glow-purple transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-3 px-4 rounded-lg flex items-center justify-center">
+                 <p className="text-center text-light-text-secondary dark:text-dark-text-secondary text-sm">Submit email details for an in-depth phishing and scam analysis.</p>
+                <input type="email" value={sender} onChange={e => setSender(e.target.value)} placeholder="Sender's Email Address" className="w-full p-3 bg-light-bg dark:bg-dark-bg border border-light-border dark:border-dark-border rounded-lg focus:ring-2 focus:ring-light-accent dark:focus:ring-dark-accent focus:outline-none" disabled={isLoading} />
+                <input type="text" value={subject} onChange={e => setSubject(e.target.value)} placeholder="Subject Line" className="w-full p-3 bg-light-bg dark:bg-dark-bg border border-light-border dark:border-dark-border rounded-lg focus:ring-2 focus:ring-light-accent dark:focus:ring-dark-accent focus:outline-none" disabled={isLoading} />
+                <textarea value={emailBody} onChange={(e) => setEmailBody(e.target.value)} placeholder="Paste the full email body for deep phishing analysis..." className="w-full h-40 p-4 bg-light-bg dark:bg-dark-bg border border-light-border dark:border-dark-border rounded-lg focus:ring-2 focus:ring-light-accent dark:focus:ring-dark-accent focus:outline-none" disabled={isLoading} />
+                <button onClick={handleEmailAnalyze} disabled={isLoading || !sender.trim() || !subject.trim() || !emailBody.trim()} className="w-full bg-gradient-to-r from-purple-600 to-pink-500 hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-3 px-4 rounded-lg flex items-center justify-center">
                   {isLoading ? <><LoadingSpinner /> Analyzing...</> : 'Analyze Email'}
                 </button>
             </div>
@@ -302,46 +305,46 @@ const ScamAnalyzer: React.FC = () => {
 
         {activeTab === 'call' && (
             <div className="text-center">
-                <p className="text-text-secondary mb-6">Activate your shield to listen and transcribe a suspicious call in real-time. Place your microphone near the audio source.</p>
+                <p className="text-light-text-secondary dark:text-dark-text-secondary mb-6">Activate real-time voice phishing detection. Point your device's microphone towards any suspicious call to get a live transcript and threat analysis.</p>
                 {!isListening ? (
-                    <button onClick={handleStartListening} className="bg-soft-mint/20 hover:bg-soft-mint/30 text-soft-mint font-bold py-3 px-6 rounded-lg transition-colors flex items-center justify-center mx-auto space-x-2">
+                    <button onClick={handleStartListening} className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition-colors flex items-center justify-center mx-auto space-x-2">
                         <MicrophoneIcon className="h-5 w-5" />
-                        <span>Activate Shield</span>
+                        <span>Start Listening</span>
                     </button>
                 ) : (
-                    <button onClick={handleStopListening} className="bg-warm-amber/20 hover:bg-warm-amber/30 text-warm-amber font-bold py-3 px-6 rounded-lg transition-colors flex items-center justify-center mx-auto space-x-2 animate-pulse-slow">
+                    <button onClick={handleStopListening} className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg transition-colors flex items-center justify-center mx-auto space-x-2">
                         <StopCircleIcon className="h-5 w-5" />
-                        <span>Deactivate Shield</span>
+                        <span>Stop Listening</span>
                     </button>
                 )}
-                <div className="mt-6 p-4 bg-charcoal-black border border-neutral-light rounded-lg min-h-[12rem] text-left text-text-secondary whitespace-pre-wrap font-mono text-sm">
-                    {transcript || (isListening ? 'Listening...' : 'Live transcript will appear here...')}
+                <div className="mt-6 p-4 bg-light-bg dark:bg-dark-bg border border-light-border dark:border-dark-border rounded-lg min-h-[12rem] text-left text-light-text-secondary dark:text-dark-text-secondary whitespace-pre-wrap font-mono text-sm">
+                    {transcript || (isListening ? 'Listening for audio...' : 'Transcript will appear here...')}
                 </div>
             </div>
         )}
 
         {activeTab === 'harmful' && (
           <div>
-            <h3 className="text-xl font-bold text-text-primary text-center">Harmful Content & Takedown Support</h3>
-            <p className="text-center text-text-secondary text-sm my-4 max-w-2xl mx-auto">
-              If someone has shared your intimate media online without your consent, know that this is not your fault. Support and powerful tools are available to help you regain control.
+            <h3 className="text-xl font-bold text-light-text-primary dark:text-dark-text-primary text-center">Harmful Content Takedown & Support</h3>
+            <p className="text-center text-light-text-secondary dark:text-dark-text-secondary text-sm my-4 max-w-2xl mx-auto">
+              If someone has shared your intimate images or videos online without your consent, please know this is not your fault, you are not alone, and support is available.
             </p>
 
-            <div className="bg-warm-amber/10 border border-warm-amber/30 text-warm-amber rounded-lg p-4 my-6">
+            <div className="bg-yellow-400/10 border border-yellow-400/30 text-yellow-700 dark:text-yellow-300 rounded-lg p-4 my-6">
               <h4 className="font-bold text-lg flex items-center"><LightbulbIcon className="h-5 w-5 mr-2" />Your Well-being Is the Priority</h4>
               <p className="text-sm mt-2">{MENTAL_HEALTH_SUPPORT.description}</p>
               <div className="mt-3">
                 <p className="font-semibold">{MENTAL_HEALTH_SUPPORT.name}</p>
                 <div className="flex items-center space-x-4 mt-2">
-                  <a href={MENTAL_HEALTH_SUPPORT.website} target="_blank" rel="noopener noreferrer" className="text-sm bg-warm-amber/20 hover:bg-warm-amber/30 font-semibold py-1 px-3 rounded-full transition-colors">
+                  <a href={MENTAL_HEALTH_SUPPORT.website} target="_blank" rel="noopener noreferrer" className="text-sm bg-yellow-400/20 hover:bg-yellow-400/30 font-semibold py-1 px-3 rounded-full transition-colors">
                     Visit Website
                   </a>
-                  <span className="text-sm font-mono bg-warm-amber/10 px-2 py-1 rounded">{MENTAL_HEALTH_SUPPORT.contact}</span>
+                  <span className="text-sm font-mono bg-yellow-400/10 px-2 py-1 rounded">{MENTAL_HEALTH_SUPPORT.contact}</span>
                 </div>
               </div>
             </div>
 
-            <label htmlFor="harmful-link" className="block text-sm font-semibold text-text-secondary mb-2">
+            <label htmlFor="harmful-link" className="block text-sm font-semibold text-light-text-secondary dark:text-dark-text-secondary mb-2">
               Paste the link to the harmful content:
             </label>
             <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
@@ -351,24 +354,24 @@ const ScamAnalyzer: React.FC = () => {
                 value={harmfulLink}
                 onChange={(e) => setHarmfulLink(e.target.value)}
                 placeholder="https://example.com/harmful-content"
-                className="flex-grow w-full p-3 bg-charcoal-black border border-neutral-light rounded-lg focus:ring-2 focus:ring-electric-purple focus:border-electric-purple focus:outline-none"
+                className="flex-grow w-full p-3 bg-light-bg dark:bg-dark-bg border border-light-border dark:border-dark-border rounded-lg focus:ring-2 focus:ring-light-accent dark:focus:ring-dark-accent focus:outline-none"
               />
               <button 
                 onClick={handleGetReportingHelp}
-                className="bg-gradient-to-r from-brand-gradient-from to-brand-gradient-to bg-[size:200%_auto] animate-gradient-x hover:shadow-glow-purple text-white font-bold py-3 px-6 rounded-lg flex-shrink-0"
+                className="bg-gradient-to-r from-purple-600 to-pink-500 hover:opacity-90 transition-opacity text-white font-bold py-3 px-6 rounded-lg flex-shrink-0"
               >
                 Get Reporting Help
               </button>
             </div>
 
             {reportingGuide && (
-              <div className="mt-6 p-4 bg-charcoal-black rounded-lg border border-electric-purple/50">
-                <h4 className="font-bold text-text-primary text-lg">Reporting Guide for {reportingGuide.platform}</h4>
-                <p className="text-sm text-text-secondary my-2">Follow these steps to report the content directly on their platform:</p>
-                <ul className="list-disc list-inside space-y-1 text-sm text-text-primary pl-2">
+              <div className="mt-6 p-4 bg-light-bg dark:bg-dark-bg rounded-lg border border-light-accent dark:border-dark-accent">
+                <h4 className="font-bold text-light-text-primary dark:text-dark-text-primary text-lg">Reporting Guide for {reportingGuide.platform}</h4>
+                <p className="text-sm text-light-text-secondary dark:text-dark-text-secondary my-2">Follow these steps to report the content directly on their platform:</p>
+                <ul className="list-disc list-inside space-y-1 text-sm text-light-text-primary dark:text-dark-text-primary pl-2">
                   {reportingGuide.instructions.map((step, i) => <li key={i}>{step}</li>)}
                 </ul>
-                <a href={reportingGuide.reportingUrl} target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex items-center space-x-2 text-sm bg-electric-purple hover:opacity-90 transition-opacity text-white font-semibold py-2 px-4 rounded-lg">
+                <a href={reportingGuide.reportingUrl} target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex items-center space-x-2 text-sm bg-gradient-to-r from-purple-600 to-pink-500 hover:opacity-90 transition-opacity text-white font-semibold py-2 px-4 rounded-lg">
                   <span>Go to Reporting Page</span>
                   <ExternalLinkIcon className="h-4 w-4" />
                 </a>
@@ -376,26 +379,26 @@ const ScamAnalyzer: React.FC = () => {
             )}
 
             {unrecognizedLink && (
-              <div className="mt-6 p-4 bg-charcoal-black rounded-lg border border-warm-amber/50">
-                <h4 className="font-bold text-warm-amber">Platform Not Recognized</h4>
-                <p className="text-sm text-text-secondary mt-2 mb-4">
+              <div className="mt-6 p-4 bg-light-bg dark:bg-dark-bg rounded-lg border border-status-yellow/50">
+                <h4 className="font-bold text-status-yellow">Platform Not Recognized</h4>
+                <p className="text-sm text-light-text-secondary dark:text-dark-text-secondary mt-2 mb-4">
                   We couldn't automatically identify this platform. However, you can still take action using the powerful general resources below. We highly recommend starting with StopNCII.org.
                 </p>
               </div>
             )}
 
             <div className="mt-8">
-              <h4 className="font-bold text-lg text-text-primary mb-3">General Takedown Resources</h4>
+              <h4 className="font-bold text-lg text-light-text-primary dark:text-dark-text-primary mb-3">General Takedown Resources</h4>
               <div className="space-y-4">
                 {TAKEDOWN_RESOURCES.map(resource => (
-                  <div key={resource.organization} className="p-4 bg-charcoal-black rounded-lg border border-neutral-light">
-                    <h5 className="font-bold text-text-primary">{resource.organization}</h5>
-                    <p className="text-sm text-text-secondary mt-1 mb-3">{resource.description}</p>
+                  <div key={resource.organization} className="p-4 bg-light-bg dark:bg-dark-bg rounded-lg border border-light-border dark:border-dark-border">
+                    <h5 className="font-bold text-light-text-primary dark:text-dark-text-primary">{resource.organization}</h5>
+                    <p className="text-sm text-light-text-secondary dark:text-dark-text-secondary mt-1 mb-3">{resource.description}</p>
                     <a
                       href={resource.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-sm bg-electric-purple hover:opacity-90 transition-opacity text-white font-semibold py-2 px-4 rounded-lg inline-block"
+                      className="text-sm bg-gradient-to-r from-purple-600 to-pink-500 hover:opacity-90 transition-opacity text-white font-semibold py-2 px-4 rounded-lg inline-block"
                     >
                       {resource.linkText}
                     </a>
@@ -406,7 +409,7 @@ const ScamAnalyzer: React.FC = () => {
           </div>
         )}
         
-        {error && <div className="mt-6 p-4 bg-warm-amber/10 border border-warm-amber/30 text-warm-amber rounded-lg">{error}</div>}
+        {error && <div className="mt-6 p-4 bg-red-500/10 border border-red-500/30 text-red-700 dark:text-red-300 rounded-lg">{error}</div>}
         
         {(activeTab === 'message' || activeTab === 'email') && result && <AnalysisResultDisplay result={result} />}
       </div>

@@ -1,6 +1,6 @@
 {
   "name": "ScamShield AI",
-  "description": "An AI agent to detect, educate about, and help recover from sophisticated scams in messaging apps. It uses real-time analysis with search grounding and a deep thinking mode for complex threats.",
+  "description": "An advanced AI cybersecurity agent for real-time threat intelligence. Detects sophisticated phishing, digital fraud, and social engineering in messages and emails, with tools for recovery and prevention.",
   "requestFramePermissions": [
     "microphone"
   ]

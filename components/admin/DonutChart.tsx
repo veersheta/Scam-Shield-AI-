@@ -12,15 +12,15 @@ interface DonutChartProps {
 
 const DonutChart: React.FC<DonutChartProps> = ({ title, data }) => {
   const totalValue = data.reduce((sum, item) => sum + item.value, 0);
-  const colors = ['#9B59B6', '#A3E4D7', '#F39C12', '#6A1B9A', '#3B0A57']; // electric-purple, soft-mint, warm-amber, etc.
+  const colors = ['#0969DA', '#28A745', '#FDB827', '#9333EA', '#F85149']; // blue, green, yellow, purple, red from tailwind config
   const radius = 80;
   const circumference = 2 * Math.PI * radius;
 
   let accumulatedOffset = 0;
 
   return (
-    <div className="bg-neutral-dark p-6 rounded-2xl border border-neutral-light h-full shadow-card">
-      <h3 className="text-xl font-bold text-text-primary mb-6">{title}</h3>
+    <div className="bg-light-glass dark:bg-dark-glass backdrop-blur-xl p-6 rounded-xl border border-white/20 h-full">
+      <h3 className="text-xl font-bold text-light-text-primary dark:text-dark-text-primary mb-6">{title}</h3>
       <div className="flex flex-col md:flex-row items-center gap-8">
         <div className="relative flex-shrink-0">
           <svg className="w-48 h-48 transform -rotate-90" viewBox="0 0 200 200">
@@ -31,7 +31,7 @@ const DonutChart: React.FC<DonutChartProps> = ({ title, data }) => {
               fill="transparent"
               stroke="currentColor"
               strokeWidth="20"
-              className="text-neutral-light"
+              className="text-light-border dark:text-dark-border opacity-50"
             />
             {data.map((item, index) => {
               const percentage = (item.value / totalValue) * 100;
@@ -55,10 +55,10 @@ const DonutChart: React.FC<DonutChartProps> = ({ title, data }) => {
             })}
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <span className="text-3xl font-bold text-text-primary">
+            <span className="text-3xl font-bold text-light-text-primary dark:text-dark-text-primary">
               {totalValue.toLocaleString()}
             </span>
-            <span className="text-sm text-text-secondary">Total</span>
+            <span className="text-sm text-light-text-secondary dark:text-dark-text-secondary">Total</span>
           </div>
         </div>
         <div className="w-full">
@@ -72,9 +72,9 @@ const DonutChart: React.FC<DonutChartProps> = ({ title, data }) => {
                       className="w-3 h-3 rounded-full mr-2"
                       style={{ backgroundColor: colors[index % colors.length] }}
                     ></span>
-                    <span className="text-text-secondary">{item.name}</span>
+                    <span className="text-light-text-secondary dark:text-dark-text-secondary">{item.name}</span>
                   </div>
-                  <span className="font-semibold text-text-primary">{percentage.toFixed(1)}%</span>
+                  <span className="font-semibold text-light-text-primary dark:text-dark-text-primary">{percentage.toFixed(1)}%</span>
                 </li>
               );
             })}

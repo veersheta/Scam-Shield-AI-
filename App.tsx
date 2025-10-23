@@ -32,18 +32,18 @@ const App: React.FC = () => {
     return (
       <>
         <div className="text-center mb-16 md:mb-20">
-          <h1 className="text-4xl md:text-6xl font-bold text-text-primary mb-4 leading-tight tracking-tight">
-            Digital Clarity, Absolute Confidence.
+          <h1 className="text-4xl md:text-6xl font-bold text-light-text-primary dark:text-dark-text-primary mb-4 leading-tight">
+            Proactive AI Threat Detection for Digital Scams
           </h1>
-          <p className="text-lg md:text-xl text-text-secondary max-w-3xl mx-auto">
-            Welcome to your secure control center. Paste any suspicious message, link, or text for an instant, empathetic analysis designed to empower you against digital threats.
+          <p className="text-lg md:text-xl text-light-text-secondary dark:text-dark-text-secondary max-w-3xl mx-auto">
+            Forensically analyze suspicious emails, messages, and links with our AI-powered threat intelligence platform to neutralize phishing, malware, and social engineering attacks in real-time.
           </p>
         </div>
 
         <ScamAnalyzer />
 
         <div className="my-20 md:my-32">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-text-primary mb-12">Your Empowerment Suite</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-light-text-primary dark:text-dark-text-primary mb-12">Your Cybersecurity Command Center</h2>
           <ToolSuite onLoginClick={openLogin} onSignUpClick={openSignUp} />
         </div>
       </>
@@ -51,7 +51,7 @@ const App: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-charcoal-black text-text-primary font-sans">
+    <div className="min-h-screen bg-light-bg dark:bg-dark-bg text-light-text-primary dark:text-dark-text-primary font-sans transition-colors duration-300">
       <div className="blob-container">
         <div className="blob blob1"></div>
         <div className="blob blob2"></div>
@@ -62,8 +62,8 @@ const App: React.FC = () => {
         {renderAppContent()}
       </main>
 
-      <footer className="text-center py-8 border-t border-neutral-light mt-16">
-        <p className="text-text-secondary">&copy; 2024 ScamShield AI. Empowering Your Digital Safety.</p>
+      <footer className="text-center py-8 border-t border-light-border dark:border-dark-border mt-16">
+        <p className="text-light-text-secondary dark:text-dark-text-secondary">&copy; 2024 ScamShield AI. Fortifying your digital presence.</p>
       </footer>
 
       {isLoginOpen && <LoginModal onClose={() => setIsLoginOpen(false)} onSwitchToSignUp={openSignUp} />}

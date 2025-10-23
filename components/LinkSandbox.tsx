@@ -57,14 +57,14 @@ const LinkSandbox: React.FC = () => {
   );
 
   return (
-    <section className="bg-neutral-dark p-6 md:p-8 rounded-2xl border border-neutral-light">
+    <section className="bg-light-glass dark:bg-dark-glass backdrop-blur-xl p-6 md:p-8 rounded-2xl border border-white/20">
       <div className="text-center">
-        <h3 className="text-2xl font-bold text-text-primary mb-2 flex items-center justify-center">
-          <MagnifyingGlassIcon className="h-6 w-6 mr-3 text-electric-purple" />
-          Link Sandbox
+        <h3 className="text-2xl font-bold text-light-text-primary dark:text-dark-text-primary mb-2 flex items-center justify-center">
+          <MagnifyingGlassIcon className="h-6 w-6 mr-3 text-light-accent dark:text-dark-accent" />
+          Zero-Trust Link Sandbox
         </h3>
-        <p className="text-text-secondary max-w-2xl mx-auto mb-6">
-          Investigate suspicious links in a secure, isolated environment. Our AI analyzes the URL while you get a safe preview.
+        <p className="text-light-text-secondary dark:text-dark-text-secondary max-w-2xl mx-auto mb-6">
+          Vet suspicious URLs in a secure, isolated environment. Our AI performs static analysis to expose malicious links and phishing attempts before you click.
         </p>
       </div>
 
@@ -75,14 +75,14 @@ const LinkSandbox: React.FC = () => {
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             placeholder="https://example.com"
-            className="flex-grow w-full p-3 bg-charcoal-black border border-neutral-light rounded-lg focus:ring-2 focus:ring-electric-purple focus:border-electric-purple focus:outline-none transition-colors"
+            className="flex-grow w-full p-3 bg-light-bg dark:bg-dark-bg border border-light-border dark:border-dark-border rounded-lg focus:ring-2 focus:ring-light-accent dark:focus:ring-dark-accent focus:outline-none transition-colors"
             disabled={isLoading}
             required
           />
           <button
             type="submit"
             disabled={isLoading || !url.trim()}
-            className="bg-gradient-to-r from-brand-gradient-from to-brand-gradient-to bg-[size:200%_auto] animate-gradient-x hover:shadow-glow-purple disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-3 px-6 rounded-lg flex items-center justify-center flex-shrink-0"
+            className="bg-gradient-to-r from-purple-600 to-pink-500 hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-3 px-6 rounded-lg flex items-center justify-center flex-shrink-0"
           >
             {isLoading ? <><LoadingSpinner /> Analyzing...</> : 'Analyze URL Safely'}
           </button>
@@ -90,12 +90,12 @@ const LinkSandbox: React.FC = () => {
       </form>
 
       <div className="max-w-3xl mx-auto">
-        {error && <div className="mt-6 p-4 bg-warm-amber/10 border border-warm-amber/30 text-warm-amber rounded-lg">{error}</div>}
+        {error && <div className="mt-6 p-4 bg-red-500/10 border border-red-500/30 text-red-700 dark:text-red-300 rounded-lg">{error}</div>}
         {result && <AnalysisResultDisplay result={result} />}
         
         {sandboxedUrl && (
           <div className="mt-8">
-            <div className="flex items-start p-4 mb-4 bg-warm-amber/10 border border-warm-amber/30 text-warm-amber rounded-lg">
+            <div className="flex items-start p-4 mb-4 bg-yellow-400/10 border border-yellow-400/30 text-yellow-700 dark:text-yellow-300 rounded-lg">
               <LightbulbIcon className="h-6 w-6 mr-3 mt-1 flex-shrink-0" />
               <div>
                 <h4 className="font-bold">A Note on Previews</h4>
@@ -105,11 +105,11 @@ const LinkSandbox: React.FC = () => {
               </div>
             </div>
 
-            <h4 className="text-xl font-bold text-text-primary text-center mb-4">Safe Preview</h4>
-            <div className="relative p-1.5 bg-black rounded-lg ring-2 ring-neutral-light aspect-video shadow-lg">
+            <h4 className="text-xl font-bold text-light-text-primary dark:text-dark-text-primary text-center mb-4">Safe Preview</h4>
+            <div className="relative p-1.5 bg-black rounded-lg ring-2 ring-light-border dark:ring-dark-border aspect-video shadow-lg">
               {isIframeLoading && (
-                <div className="absolute inset-0 bg-neutral-dark flex items-center justify-center z-10">
-                    <svg className="animate-spin h-8 w-8 text-electric-purple" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <div className="absolute inset-0 bg-white dark:bg-dark-bg flex items-center justify-center z-10">
+                    <svg className="animate-spin h-8 w-8 text-light-accent dark:text-dark-accent" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
